@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#20150e">
+<title>2026 미래반도체 포럼</title>
+<style>
+*{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;background:#20150e}
+body{overflow:hidden;font-family:Arial,"Noto Sans KR",sans-serif}
+.app{position:relative;width:100%;height:100dvh;overflow:hidden}
+.slider{display:flex;width:100%;height:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.slider::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;scroll-snap-align:start;scroll-snap-stop:always}
+.slide img{display:block;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
+.nav{position:absolute;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;gap:9px;padding:9px 13px;border-radius:999px;background:rgba(20,12,7,.52);backdrop-filter:blur(10px)}
+.dot{width:7px;height:7px;border:0;border-radius:50%;padding:0;background:rgba(255,255,255,.38)}
+.dot.active{width:20px;border-radius:999px;background:#f0d39a}
+.counter{position:absolute;right:16px;top:max(16px,env(safe-area-inset-top));color:#fff;background:rgba(20,12,7,.48);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:7px 11px;font-size:12px}
+@media(min-width:900px){.app{width:min(100%,820px);height:min(100dvh,1080px);margin:auto;box-shadow:0 20px 70px rgba(0,0,0,.35)}body{display:grid;place-items:center}}
+</style>
+</head>
+<body>
+<main class="app">
+<div class="slider" id="slider">
+<section class="slide"><img src="00-cover.png" alt="2026 미래반도체 포럼 표지"></section>
+<section class="slide"><img src="01-timetable.png" alt="포럼 타임테이블"></section>
+<section class="slide"><img src="02-lunch.png" alt="점심시간 및 식당 안내"></section>
+<section class="slide"><img src="03-event.png" alt="포럼 이벤트 안내"></section>
+</div>
+<div class="counter" id="counter">1 / 4</div>
+<nav class="nav">
+<button class="dot active" aria-label="1페이지"></button><button class="dot" aria-label="2페이지"></button><button class="dot" aria-label="3페이지"></button><button class="dot" aria-label="4페이지"></button>
+</nav>
+</main>
+<script>
+const s=document.getElementById('slider'),a=[...document.querySelectorAll('.slide')],d=[...document.querySelectorAll('.dot')],c=document.getElementById('counter');
+d.forEach((x,i)=>x.onclick=()=>a[i].scrollIntoView({behavior:'smooth',inline:'start',block:'nearest'}));
+s.addEventListener('scroll',()=>requestAnimationFrame(()=>{let i=Math.round(s.scrollLeft/s.clientWidth);d.forEach((x,n)=>x.classList.toggle('active',n===i));c.textContent=(i+1)+' / '+a.length}));
+document.addEventListener('keydown',e=>{let i=Math.round(s.scrollLeft/s.clientWidth);if(e.key==='ArrowRight')a[Math.min(i+1,a.length-1)].scrollIntoView({behavior:'smooth'});if(e.key==='ArrowLeft')a[Math.max(i-1,0)].scrollIntoView({behavior:'smooth'})});
+</script>
+</body></html>
